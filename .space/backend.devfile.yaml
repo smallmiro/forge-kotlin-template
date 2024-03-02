@@ -5,5 +5,8 @@ attributes:
       instanceType: regular
       editor:
         type: Idea
-      warmup:
-        indexing: false
+    warmup:
+        # run every day at 4:00 and 12:00
+        startOn:
+            - type: schedule
+            cron: '0 4,12 * * *'
