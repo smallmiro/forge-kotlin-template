@@ -7,16 +7,8 @@ attributes:
     # data created by './gradlew assemble' and './scripts/warmup.sh'.
     # The warmup will run in the 'my-devenv-container' specified below.
     warmup:
-      # Warm-up trigger
-      # Run warm-up on schedule
       startOn:
-      - type: schedule
-        cron: '0 0 * * MON-FRI'
-      # The script to run
-      script: |
-        ./gradlew assemble
-        ./scripts/warmup.sh
-components:
-- name: dev-container
-  container:
-    image: mycompany.registry.jetbrains.space/p/myprj/container/dev-image:latest
+      - type: gitPush
+        branchFilter:
+          include:
+          - 'refs/heads/main'
