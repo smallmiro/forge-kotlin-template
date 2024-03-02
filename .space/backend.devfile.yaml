@@ -1,12 +1,22 @@
 schemaVersion: 2.2.0
 attributes:
-    space:
-      # regular, large, xlarge
-      instanceType: regular
-      editor:
-        type: Idea
+  space:
+    editor:
+      type: Idea
+    # The resulting warm-up snapshot will contain project indexes,
+    # data created by './gradlew assemble' and './scripts/warmup.sh'.
+    # The warmup will run in the 'my-devenv-container' specified below.
     warmup:
-        # run every day at 4:00 and 12:00
-        startOn:
-            - type: schedule
-              cron: '0 4,12 * * *'
+      # Warm-up trigger
+      # Run warm-up on schedule
+      startOn:
+      - type: schedule
+        cron: '0 0 * * MON-FRI'
+      # The script to run
+      script: |
+        ./gradlew assemble
+        ./scripts/warmup.sh
+components:
+- name: dev-container
+  container:
+    image: mycompany.registry.jetbrains.space/p/myprj/container/dev-image:latest
